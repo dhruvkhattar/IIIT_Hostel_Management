@@ -1,0 +1,387 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{color}
+\usepackage{graphicx}
+\title{\bfseries{IIIT Hostel Management Portal developed using WEB2PY}}
+\begin{document}
+\maketitle
+{\Large{\bfseries Contents}}
+\begin{enumerate}
+	\item Brief description of the web application.
+	\item Features
+		\begin{itemize}
+			\item Functions
+			\item UI Screenshots
+			\item Schema of tables
+		\end{itemize}
+\end{enumerate}
+\newpage
+\part{{\Large Brief Description:}}
+This web app has been developed as a part of our ITWS\- 2 project work and made using WEB2PY.
+\newline
+\\
+IIIT Hostel Management Portal is a simple portal where students can \textcolor{red}{Log In} and then Book their rooms before the start of the semester,post complaints,subscribe for newspapers,fix an appointment with a Doctor and even register a Lost or Found entry.
+\newline
+\newline
+{\Large{\bfseries Salient Features:}}
+\begin{itemize}
+	\item Room Booking
+	\item Complaint Entry
+	\item Laptop Registration
+	\item Lost and Found Entry
+	\item Newspaper Subscription
+	\item Feedback
+\end{itemize}
+
+{\bfseries Note}
+\begin{itemize}
+	\item When booking a room a person can book a room only once and then changes can only be overidden by the Admin.
+	\item Complaints entered by a person are visible to the person who made the entry and the Admin.
+	\item Similar goes for newspaper subscriptions and laptop registration.
+	\item Feedback once given cannot be undone.
+	\item A person must sign up and be logged in to use any of the above services.
+	\item To ensure a person is a reliable source and a student of IIIT he/she must first confirm his/her registration during sign up by clicking on the link sent to their email address.
+\end{itemize}
+
+
+\newpage
+\part{\Large Main Features:}
+\begin{enumerate}
+	\item {\bfseries Complaint} Here users can add complaints and view complaints.
+	\item {\bfseries Laptop} Here users have to register their laptops.
+	\item {\bfseries Medical} To fix an appointment with a doctor or in case of an Emergency contact the Admins.
+	\item {\bfseries Lost\&Found} To post if an item gets lost.
+	\item {\bfseries Room Allocation} Here users can book a room.
+	\item {\bfseries Newspaper} Users can subscribe for a newspaper.
+	\item {\bfseries Feedback} Users can give their feedbacks.
+\end{enumerate}
+
+{\Large{\bfseries Functions:}
+	\newline
+	\newline
+These are present in the default.py file in the Controllers.}
+\newline
+\newline
+{\bfseries 1. write\_complaint():}This function creates a form to add the complaint to the complaint table.
+\newline
+\\
+{\bfseries 2. view\_complaint():}This function displays the contents of the complaint table of the user currently logged in or all the complaints of the registered users to the Admins.
+\newline
+\\
+{\bfseries 3. my\_complaint():}This function returns a grid to display a particular complaint.
+\newline
+\\
+{\bfseries 4. medical\_request():}This function creates a form to schedule an appointment with a doctor by specifying the convenient time.
+\newline
+In case of an emergency a user can click on the \textcolor{red}{Emergency} button and this will automatically send a mail to the admins informing them of an emergency.
+\newline
+\\
+{\bfseries 5. my\_requests():}This functions returns a grid which displays the medical requests of the user currently logged in or all the requests of the registered users to the Admins.
+\newline
+\\
+{\bfseries 6. view\_request():}This functions returns a grid which displays a particular medical request.
+\newline
+\\
+{\bfseries 7. laptop\_entry():}This function creates a form to add the details of a student's laptop to the Laptop table.
+\newline
+\\
+{\bfseries 8. my\_laptops():}This function returns a grid to view the details of the user's laptop entries or the laptop entries of all the registered users by the Admins.
+\newline
+\\
+{\bfseries 9.lostandfound\_entry():}This function creates a form to add a lost entry and this is added to the table Lost.
+\newline
+\\
+{\bfseries 10.view\_lostandfound():}This returns a grid containing the details of the table Lost where the registered users can view all the lost entries and can make comments.
+\newline
+\\
+{\bfseries 11.view\_lost():}To view a particular lost entry and comment.
+\newline
+\\
+{\bfseries 12.room\_allocation():}This function creates a form to select room no from any floor and any block D,E or OBH. Here each user can select a room only onceand it can be changed only by the Admin.
+\newline
+\\
+{\bfseries 13.newspaper():}This function creates a form where users can subscribe for a newspaper.
+\newline
+\\
+{\bfseries 14.my\_newspapers():}This function creates a grid where users can view there newspaper subscriptions and Admin can view the subscriptions of all the registered users.
+\newline
+\\
+{\bfseries 15.feedback\_entry():}This function creates a form to enter feedback.
+\newline
+\\
+{\bfseries 16.view\_entry():}This function returns a grid to enable the Admin to view the feedback given by the users.
+\newline
+\\
+{\bfseries 17.adminship():}This function defines the adminship of the users like Superadmin,Admin or regular users.
+
+\newpage
+
+{\Large{\bfseries Schema of the Tables:}
+	\newline
+	\\
+These tables are present in db.py file in Models}
+\\
+\\
+1. db.define\_table('complaint',
+Field('roll','integer',writable=False,requires=[IS\_INT\_IN\_RANGE(200701000,201547000),IS\_NOT\_EMPTY()]),
+Field('category',requires=IS\_IN\_SET(CAT)),
+Field('subject',requires=IS\_NOT\_EMPTY()),
+Field('description','text',requires=IS\_NOT\_EMPTY()),
+Field('image','upload',uploadfield='myblob'),
+Field('myblob','blob'),
+auth.signature)
+\\
+\\
+2. db.define\_table('Laptop',
+Field('roll','integer',writable=False,requires=[IS\_INT\_IN\_RANGE(200701000,201547000),IS\_NOT\_EMPTY()]),
+Field('category',requires=IS\_IN\_SET(brand)),
+Field('Serial',requires=IS\_NOT\_EMPTY()),
+Field('description','text'),
+Field('image','upload',uploadfield='myblob'),
+Field('myblob','blob'),
+auth.signature)
+\\
+\\
+3. db.define\_table('Lost',
+Field('roll','integer',writable=False,requires=[IS\_INT\_IN\_RANGE(200701000,201547000),IS\_NOT\_EMPTY()]),
+Field('Item',requires=IS\_NOT\_EMPTY()),
+Field('Place\_Where\_Lost',requires=IS\_NOT\_EMPTY()),
+Field('description','text',requires=IS\_NOT\_EMPTY()),
+Field('image','upload',uploadfield='myblob'),
+Field('myblob','blob'),
+auth.signature)
+\\
+\\
+4. db.define\_table('comm',
+Field('complaint','reference complaint'),
+Field('body','text'),
+auth.signature)
+\\
+\\
+5. db.define\_table('comm2',
+Field('Lost','reference Lost'),
+Field('body','text'),
+Field('founditem','boolean'),
+auth.signature)
+\\
+\\
+6. db.define\_table('med',
+Field('roll','integer',writable=False,requires=[IS\_INT\_IN\_RANGE(200701000,201547000),IS\_NOT\_EMPTY()]),
+Field('description','text'),
+Field('doctor',requires=IS\_IN\_SET(MED)),
+Field('availablefrom','time',requires=IS\_TIME(),default='2:00'),
+Field('availableto','time',requires=IS\_TIME(),default='6:00'),
+Field('emergency','boolean'),
+auth.signature)
+\\
+\\
+7. db.define\_table('medcomm',
+Field('med','reference med'),
+Field('body','text'),
+auth.signature)
+\\
+\\
+8. db.define\_table('news',
+Field('roll',writable=False),
+Field('newspaper',requires=IS\_IN\_SET(NEWS)),
+Field('validfrom','date',default=request.now.date),
+Field('validupto','date'),
+auth.signature)
+\\
+\\
+9. db.define\_table('obh',
+Field('floorno',writable=False,requires=IS\_IN\_SET(FLOOR)),
+Field('room',writable=False),
+Field('person',requires=IS\_IN\_DB(db,db.auth\_user.Rollno)),
+)
+\\
+\\
+10. db.define\_table('d',
+Field('floorno',writable=False,requires=IS\_IN\_SET(FLOOR)),
+Field('room',writable=False),
+Field('person1',requires=IS\_IN\_DB(db,db.auth\_user.Rollno)),
+Field('person2',requires=IS\_IN\_DB(db,db.auth\_user.Rollno))
+)
+\\
+\\
+11. db.define\_table('med',
+Field('roll','integer',writable=False,requires=[IS\_INT\_IN\_RANGE(200701000,201547000),IS\_NOT\_EMPTY()]),
+Field('description','text'),
+Field('doctor',requires=IS\_IN\_SET(MED)),
+Field('availablefrom','time',requires=IS\_TIME(),default='2:00'),
+Field('availableto','time',requires=IS\_TIME(),default='6:00'),
+Field('emergency','boolean'),
+auth.signature)
+\\
+\\
+12. db.define\_table('Feedback',
+Field('roll','integer',writable=False,requires=\[IS\_INT\_IN\_RANGE(200701000,201547000),IS\_NOT\_IN\_DB(db,'Feedback.roll'),IS\_NOT\_EMPTY()\]),
+Field('Room\_Rating',requires=IS\_IN\_SET(rates)),
+Field('Washroom\_Rating',requires=IS\_IN\_SET(rates)),
+Field('Extra\_Comments','text'),
+auth.signature)
+\\
+\\
+\newpage
+
+{\Large{\bfseries UI Screenshots}}
+
+1.HomePage
+
+\begin{center}
+	\includegraphics[scale=.30]{home.png}
+\end{center}
+
+2.Login
+
+\begin{center}
+	\includegraphics[scale=.30]{login.png}
+\end{center}
+
+\newpage
+
+3.Complaints
+
+\begin{center}
+	\includegraphics[scale=.30]{complaint.png}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=.30]{complaint2.png}
+\end{center}
+
+\newpage
+
+\begin{center}
+	\includegraphics[scale=.30]{mycomplaints.png}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=.30]{my_complaints.png}
+\end{center}
+
+\newpage
+
+4.Lost\&Found
+
+\begin{center}
+	\includegraphics[scale=.30]{lostfoundentry.png}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=.30]{lost.png}
+\end{center}
+
+\newpage
+
+5.Laptop Entry and Views
+
+\begin{center}
+	\includegraphics[scale=.30]{laptopentry.png}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=.30]{mylaptop.png}
+\end{center}
+
+\newpage
+
+6.Medical Requests
+
+\begin{center}
+	\includegraphics[scale=.30]{medicalrequest.png}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=.30]{med.png}
+\end{center}
+
+\newpage
+
+\begin{center}
+	\includegraphics[scale=.30]{myrequest.png}
+\end{center}
+
+7.Newspaper Subscriptions
+
+\begin{center}
+	\includegraphics[scale=.30]{newspaper.png}
+\end{center}
+
+\newpage
+
+\begin{center}
+	\includegraphics[scale=.30]{news.png}
+\end{center}
+
+\begin{center}
+	\includegraphics[scale=.30]{mysub.png}
+\end{center}
+
+\newpage
+
+8.Super Admin
+\begin{center}
+	\includegraphics[scale=.30]{sahosteladmin.png}
+\end{center}
+
+
+9.Admins
+\begin{center}
+	\includegraphics[scale=.30]{admins.png}
+\end{center}
+
+\newpage
+
+10.Sign Up
+
+\begin{center}
+	\includegraphics[scale=.30]{signup.png}
+\end{center}
+
+
+\newpage
+
+\begin{center}
+	END
+\end{center}
+
+This web application was developed by Dhruv Khattar(201402087) and Siddhartha Gairola(201402068).
+Thank you.
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+\\
+
+\begin{center}
+	\includegraphics[scale=0.50]{logo.png}
+\end{center}
+\end{document}
